@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personagens Traduzidos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Impede a rolagem horizontal na página */
+        body {
+            overflow-x: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <!-- Título -->
+        <h1 class="text-center mb-4">Personagens Traduzidos</h1>
+        
+        <!-- Lista de Personagens -->
+        <div class="row">
+            {% if personagem %}
+                {% for p in personagem %}
+                <div class="col-md-4 col-sm-6">
+                    <div class="card mb-4">
+                        <img class="card-img-top" src="{{ p.photoUrl }}" alt="Imagem de {{ p.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title"><strong>Nome:</strong> {{ p.name_traduzido }}</h5>
+                            <p class="card-text"><strong>Afiliação:</strong> {{ p.affiliacao_traduzida|default:"Desconhecida" }}</p>
+                            <p class="card-text"><strong>Aliados:</strong> {{ p.allies|default:"Nenhum" }}</p>
+                            <p class="card-text"><strong>Inimigos:</strong> {{ p.enemies|default:"Nenhum" }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-center">Nenhum personagem encontrado.</p>
+            {% endif %}
+        </div>
+
+        <!-- Paginação -->
+        <div class="overflow-auto">
+            <nav aria-label="Page navigation" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    {% if page > 1 %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page|add:'-1' }}">Anterior</a>
+                    </li>
+                    {% endif %}
+                    
+                    <!-- Exibe os números das páginas -->
+                    {% for i in page_numbers %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                    </li>
+                    {% endfor %}
+
+                    {% if page < total_pages %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page|add:'1' }}">Próxima</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
